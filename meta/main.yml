@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Nils Berg
+  description: Ansible Role for Installing php 7.4 fpm
+  company: "Backslash Seven GmbH"
+  license: GPL-3.0-only
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 8
+    - name: Debian
+      versions:
+        - buster
+        - stretch
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+  galaxy_tags:
+    - system
+    - automation

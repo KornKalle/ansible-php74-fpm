@@ -27,7 +27,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: nginx
       roles:
-         - { role: kornkalle.php74_fpm }
+         - { role: kornkalle.ansible_php74_fpm }
 
 License
 -------

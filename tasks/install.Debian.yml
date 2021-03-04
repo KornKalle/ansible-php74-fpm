@@ -1,0 +1,66 @@
+---
+- name: Set facts for Debian
+  set_fact:
+    nginx_user: "www-data"
+    php_ini_dest: "/etc/php/7.4/fpm/php.ini"
+    php_fpm_dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+    php_fpm_service: "php7.4-fpm"
+
+# Ubuntu specific
+- name: Install ondrej/php Repo for Ubuntu
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Add third-party repository on Ubuntu
+  become: true
+  apt_repository:
+    repo: "ppa:ondrej/php"
+  when:
+    - ansible_distribution|lower == "ubuntu"
+
+# Debian specific
+- name: Add Ondrej Sury's apt key for Debian
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    id: 15058500A0235D97F5D10063B188E2B695BD4743
+    state: present
+  when: ansible_distribution == "Debian"
+
+- name: Add Ondrej Sury's repo for Debian
+  apt_repository:
+    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+    state: present
+  register: php_ondrej_debian_repo
+  when: ansible_distribution == "Debian"
+
+- name: Update apt caches after repo is added Debian
+  apt:
+    update_cache: true
+  when:
+    - php_ondrej_debian_repo.changed
+    - ansible_distribution == "Debian"
+  tags: ['skip_ansible_lint']
+
+# Both
+- name: install Packages for Debian
+  apt:
+    state: present
+    name:
+      - php7.4-fpm
+      - php7.4-cli
+      - php7.4-common
+      - php7.4-mysql
+      - php7.4-mbstring
+      - php7.4-gd
+      - php7.4-imagick
+      - php7.4-intl
+      - php7.4-bz2
+      - php7.4-xml
+      - php7.4-pgsql
+      - php7.4-zip
+      - php7.4-dev
+      - php7.4-smbclient
+      - php7.4-ldap
+      - php7.4-curl

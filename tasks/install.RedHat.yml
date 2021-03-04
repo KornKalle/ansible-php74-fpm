@@ -1,0 +1,57 @@
+- name: Import remi GPG key.
+  rpm_key:
+    key: "https://rpms.remirepo.net/RPM-GPG-KEY-remi2018"
+    state: present
+
+- name: Install remi repo.
+  yum:
+    name: "https://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+    state: present
+
+# See: https://github.com/ansible/ansible/issues/64852
+- block:
+    - name: Ensure dnf-plugins are installed on CentOS 8+.
+      yum:
+        name: dnf-plugins-core
+        state: present
+        update_cache: yes
+
+    - name: Enable DNF module for CentOS 8+.
+      shell: |
+        dnf config-manager --set-enabled powertools
+        dnf module enable -y php:remi-7.4
+      args:
+        warn: false
+      register: dnf_module_enable
+      changed_when: "'Nothing to do' not in dnf_module_enable.stdout"
+
+- name: Set facts for RedHat
+  set_fact:
+    nginx_user: "nginx"
+    php_ini_dest: "/etc/php.ini"
+    php_fpm_dest: "/etc/php-fpm.d/www.conf"
+    php_fpm_service: "php-fpm"
+
+- name: Install Packages for RedHat
+  dnf:
+    state: present
+    name:
+      - '@php:remi-7.4'
+      - php-cli
+      - php-fpm
+      - php-devel
+      - php-mysqlnd
+      - php-pear
+      - php-xml
+      - php-pdo
+      - php-common
+      - php-gd
+      - php-mbstring
+      - php-intl
+      - php-pecl-apcu
+      - php-mysqlnd
+      - php-opcache
+      - php-json
+      - php-zip
+      - php-redis
+      - php-imagick

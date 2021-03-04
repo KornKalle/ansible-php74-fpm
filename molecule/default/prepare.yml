@@ -1,0 +1,11 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install dirmngr on ubuntu
+      apt:
+        name: dirmngr
+        state: present
+        update_cache: yes
+      when:
+        - ansible_distribution|lower == "ubuntu"

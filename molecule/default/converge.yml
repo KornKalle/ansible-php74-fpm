@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include ansible-php74-fpm"
+      include_role:
+        name: "ansible-php74-fpm"

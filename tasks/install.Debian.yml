@@ -64,3 +64,4 @@
       - php7.4-smbclient
       - php7.4-ldap
       - php7.4-curl
+      - php7.4-redis

@@ -19,3 +19,10 @@
     backup: yes
   notify:
     - restart php-fpm
+
+- name: ensure php-fpm is running and enabled
+  tags: molecule-notest
+  service:
+    name: "{{ php_fpm_service }}"
+    enabled: yes
+    state: started

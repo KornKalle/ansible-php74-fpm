@@ -4,7 +4,7 @@
     dest: "{{ php_ini_dest }}"
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
     backup: yes
   notify:
     - restart php-fpm
@@ -15,7 +15,7 @@
     dest: "{{ php_fpm_dest }}"
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
     backup: yes
   notify:
     - restart php-fpm

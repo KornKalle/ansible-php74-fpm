@@ -1,10 +1,14 @@
 ---
 - name: Set facts for Debian
   set_fact:
-    nginx_user: "www-data"
     php_ini_dest: "/etc/php/7.4/fpm/php.ini"
     php_fpm_dest: "/etc/php/7.4/fpm/pool.d/www.conf"
     php_fpm_service: "php7.4-fpm"
+
+- name: Set username for Debian
+  set_fact:
+    nginx_user: "www-data"
+  when: nginx_user is not defined
 
 # Ubuntu specific
 - name: Install ondrej/php Repo for Ubuntu

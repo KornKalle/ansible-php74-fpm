@@ -27,10 +27,14 @@
 
 - name: Set facts for RedHat
   set_fact:
-    nginx_user: "nginx"
     php_ini_dest: "/etc/php.ini"
     php_fpm_dest: "/etc/php-fpm.d/www.conf"
     php_fpm_service: "php-fpm"
+
+- name: Set username for RedHat
+  set_fact:
+    nginx_user: "nginx"
+  when: nginx_user is not defined
 
 - name: Install Packages for RedHat
   dnf:

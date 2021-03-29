@@ -36,6 +36,11 @@
     nginx_user: "nginx"
   when: nginx_user is not defined
 
+- name: Set groupname for RedHat
+  set_fact:
+    nginx_user: "nginx"
+  when: nginx_group is not defined
+
 - name: Install Packages for RedHat
   dnf:
     state: present

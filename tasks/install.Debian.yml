@@ -10,6 +10,11 @@
     nginx_user: "www-data"
   when: nginx_user is not defined
 
+- name: Set group for Debian
+  set_fact:
+    nginx_user: "www-data"
+  when: nginx_group is not defined
+
 # Ubuntu specific
 - name: Install ondrej/php Repo for Ubuntu
   apt_repository:
